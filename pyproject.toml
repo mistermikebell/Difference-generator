@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "hexlet_code"
-version = "0.1.0"
+name = "mistermikebell-gendiff"
+version = "0.2.0"
 description = ""
 authors = ["liuxindao <jokerbell7@gmail.com>"]
 packages = [
