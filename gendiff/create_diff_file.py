@@ -1,3 +1,5 @@
+import json
+
 def get_value(items, key):
     return items.get(key)
 
@@ -26,21 +28,30 @@ def compare_files(left_file, right_file):
 
 def make_compare_file(left_file, right_file):
     plus, minus, adjusted_intersec = compare_files(left_file, right_file)
-    output_file_name = "{}_{}.txt".format(left_file, right_file)
+    output_file_name = "{}_{}.txt".format("left_file", "right_file")
     with open(output_file_name, 'a') as output_file:
         output_file.write("{\n")
         for key in minus:
             value = get_value(left_file, key)
-            output_file.write(" - {}: {}".format(key, value))
+            output_file.write(" - {}: {}\n".format(key, value))
         for key in plus:
             value = get_value(right_file, key)
-            output_file.write(" + {}: {}".format(key, value)
+            output_file.write(" + {}: {}\n".format(key, value))
         for key in adjusted_intersec:
             if isinstance(key, tuple):
                 left_file_key = key[0]
                 right_file_key = key[1]
-                output_file.write(" - {}: {}".format(left_file_key[0], left_file_key[1])) 
-                output_file.write(" + {}: {}".format(right_file_key[0], right_file_key[1)])
+                output_file.write(" - {}: {}\n".format(left_file_key[0], left_file_key[1]))
+                output_file.write(" + {}: {}\n".format(right_file_key[0], right_file_key[1]))
             else:
-                output_file.write("   {}: {}".format(key, get_value(left_file_key, key)))
+                output_file.write("   {}: {}\n".format(key, get_value(left_file, key)))
         output_file.write("}")
+    return output_file_name
+
+
+def generate_diff(left_file_path, right_file_path):
+    left_file = json.load(open(left_file_path))
+    right_file = json.load(open(right_file_path))
+    output_file_name = make_compare_file(left_file, right_file)
+    with open(output_file_name, 'r') as output:
+        return output.read()
