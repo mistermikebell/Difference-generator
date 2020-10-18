@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mistermikebell-gendiff"
-version = "0.2.0"
+version = "0.3.0"
 description = ""
 authors = ["liuxindao <jokerbell7@gmail.com>"]
 packages = [
@@ -9,6 +9,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.8"
+flake8 = "^3.8.4"
 
 [tool.poetry.dev-dependencies]
 

@@ -1,5 +1,4 @@
-from generate_diff import make_compare_file
-
+import json
 
 file1 = {
   "host": "hexlet.io",
@@ -14,5 +13,5 @@ file2 = {
   "host": "hexlet.io"
 }
 
-
-make_compare_file(file1, file2)
+nihao = json.load(open('file1.json'))
+print(nihao)
