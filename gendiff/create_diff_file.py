@@ -11,56 +11,46 @@ def get_keys(items):
     return set(items.keys())
 
 
-def compare_values(left_file, right_file, key):
-    val1 = get_value(left_file, key)
-    val2 = get_value(right_file, key)
-    if val1 == val2:
-        return key
-    return (key, val1), (key, val2)
+def get_format_line(items, key):
+    return "{}: {}".format(key, get_value(items, key))
 
 
-def compare_files(left_file, right_file):
-    keys_1 = get_keys(left_file)
-    keys_2 = get_keys(right_file)
-    plus = keys_2 - keys_1
-    minus = keys_1 - keys_2
-    intersec = keys_2 & keys_1
-    adjusted_intersec = list(map(
-        lambda x:
-            compare_values(right_file, left_file, x),
-            intersec)
+def get_difference(compare_file, target_file):
+    keys_compare = get_keys(compare_file)
+    keys_target = get_keys(target_file)
+    diff_keys = keys_target - keys_compare
+    diff_items = list(map(
+        lambda key: get_format_line(target_file, key),
+        diff_keys)
     )
-    return plus, minus, adjusted_intersec
+    return diff_items
 
 
-def make_compare_file(left_file, right_file):
-    plus, minus, adjusted_intersec = compare_files(left_file, right_file)
-    output_file_name = "{}_{}.txt".format("left_file", "right_file")
+def get_intersec(left_file, right_file):
+    keys_left = get_keys(left_file)
+    keys_right = get_keys(right_file)
+    intersec = keys_right & keys_left
+    return intersec
+
+
+def is_values_simillar(left_file, right_file, key):
+    val_left = get_value(left_file, key)
+    val_right = get_value(right_file, key)
+    if val_left == val_right:
+        return True
+    return False
+
+
+def make_compare_file(right_diff, left_diff, adjusted_intersec):
+    output_file_name = "left_file_right_file.txt"
     with open(output_file_name, 'a') as output_file:
         output_file.write("{\n")
-        for key in minus:
-            value = get_value(left_file, key)
-            output_file.write(" - {}: {}\n".format(key, value))
-        for key in plus:
-            value = get_value(right_file, key)
-            output_file.write(" + {}: {}\n".format(key, value))
-        for key in adjusted_intersec:
-            if isinstance(key, tuple):
-                left_file_key = key[0]
-                right_file_key = key[1]
-                output_file.write(" - {}: {}\n".format(
-                                  left_file_key[0],
-                                  left_file_key[1])
-                                  )
-                output_file.write(" + {}: {}\n".format(
-                                  right_file_key[0],
-                                  right_file_key[1])
-                                  )
-            else:
-                output_file.write("   {}: {}\n".format(
-                                  key,
-                                  get_value(left_file, key))
-                                  )
+        for line in left_diff:
+            output_file.write(" - {}\n".format(line))
+        for line in right_diff:
+            output_file.write(" + {}\n".format(line))
+        for line in adjusted_intersec:
+            output_file.write(line + "\n")
         output_file.write("}")
     return output_file_name
 
@@ -68,6 +58,18 @@ def make_compare_file(left_file, right_file):
 def generate_diff(left_file_path, right_file_path):
     left_file = json.load(open(left_file_path))
     right_file = json.load(open(right_file_path))
-    output_file_name = make_compare_file(left_file, right_file)
+    right_diff = get_difference(left_file, right_file)
+    left_diff = get_difference(right_file, left_file)
+    intersec = get_intersec(left_file, right_file)
+    adjusted_intersec = []
+    for key in intersec:
+        if is_values_simillar(left_file, right_file, key):
+            adjusted_intersec.append('   ' + get_format_line(right_file, key))
+        else:
+            adjusted_intersec.append(' + ' + get_format_line(right_file, key))
+            adjusted_intersec.append(' - ' + get_format_line(left_file, key))
+    output_file_name = make_compare_file(right_diff,
+                                         left_diff,
+                                         adjusted_intersec)
     with open(output_file_name, 'r') as output:
         return output.read()
