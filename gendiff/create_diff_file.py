@@ -1,4 +1,7 @@
+
+
 import json
+
 
 def get_value(items, key):
     return items.get(key)
@@ -21,8 +24,12 @@ def compare_files(left_file, right_file):
     keys_2 = get_keys(right_file)
     plus = keys_2 - keys_1
     minus = keys_1 - keys_2
-    intersec = keys_2 & keys_1    
-    adjusted_intersec = list(map(lambda x: compare_values(right_file, left_file, x), intersec))
+    intersec = keys_2 & keys_1
+    adjusted_intersec = list(map(
+        lambda x:
+            compare_values(right_file, left_file, x),
+            intersec)
+    )
     return plus, minus, adjusted_intersec
 
 
@@ -41,10 +48,19 @@ def make_compare_file(left_file, right_file):
             if isinstance(key, tuple):
                 left_file_key = key[0]
                 right_file_key = key[1]
-                output_file.write(" - {}: {}\n".format(left_file_key[0], left_file_key[1]))
-                output_file.write(" + {}: {}\n".format(right_file_key[0], right_file_key[1]))
+                output_file.write(" - {}: {}\n".format(
+                                  left_file_key[0],
+                                  left_file_key[1])
+                                  )
+                output_file.write(" + {}: {}\n".format(
+                                  right_file_key[0],
+                                  right_file_key[1])
+                                  )
             else:
-                output_file.write("   {}: {}\n".format(key, get_value(left_file, key)))
+                output_file.write("   {}: {}\n".format(
+                                  key,
+                                  get_value(left_file, key))
+                                  )
         output_file.write("}")
     return output_file_name
 
