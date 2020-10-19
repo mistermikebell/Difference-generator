@@ -23,14 +23,14 @@ def get_difference(compare_file, target_file):
         lambda key: get_format_line(target_file, key),
         diff_keys)
     )
-    return diff_items
+    return sorted(diff_items)
 
 
 def get_intersec(left_file, right_file):
     keys_left = get_keys(left_file)
     keys_right = get_keys(right_file)
     intersec = keys_right & keys_left
-    return intersec
+    return sorted(list(intersec))
 
 
 def is_values_simillar(left_file, right_file, key):
@@ -41,18 +41,17 @@ def is_values_simillar(left_file, right_file, key):
     return False
 
 
-def make_compare_file(right_diff, left_diff, adjusted_intersec):
-    output_file_name = "left_file_right_file.txt"
-    with open(output_file_name, 'a') as output_file:
-        output_file.write("{\n")
-        for line in left_diff:
-            output_file.write(" - {}\n".format(line))
-        for line in right_diff:
-            output_file.write(" + {}\n".format(line))
-        for line in adjusted_intersec:
-            output_file.write(line + "\n")
-        output_file.write("}")
-    return output_file_name
+def make_output(right_diff, left_diff, adjusted_intersec):
+    output = ""
+    output += "{\n"
+    for line in left_diff:
+        output += " - {}\n".format(line)
+    for line in right_diff:
+        output += " + {}\n".format(line)
+    for line in adjusted_intersec:
+        output += line + "\n"
+    output += "}"
+    return output
 
 
 def generate_diff(left_file_path, right_file_path):
@@ -68,8 +67,7 @@ def generate_diff(left_file_path, right_file_path):
         else:
             adjusted_intersec.append(' + ' + get_format_line(right_file, key))
             adjusted_intersec.append(' - ' + get_format_line(left_file, key))
-    output_file_name = make_compare_file(right_diff,
-                                         left_diff,
-                                         adjusted_intersec)
-    with open(output_file_name, 'r') as output:
-        return output.read()
+    output = make_output(right_diff,
+                         left_diff,
+                         adjusted_intersec)
+    return output
