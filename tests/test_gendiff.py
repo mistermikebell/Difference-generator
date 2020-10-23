@@ -2,14 +2,10 @@
 
 """ Generate difference test """
 
-from gendiff.create_diff_file import generate_diff
+from gendiff.generate_diff import gen_diff
 
 
 def test_files_diff():
-    result = open("result.txt").read()
-    output = generate_diff("file1.json", "file2.json")
-    print(output)
-    print(result)
+    result = open("./tests/fixtures/result.txt").read()
+    output = gen_diff("./tests/fixtures/file1.json", "./tests/fixtures/file2.json")
     assert output == result
-
-test_files_diff()
