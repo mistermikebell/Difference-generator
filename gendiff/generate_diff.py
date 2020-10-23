@@ -99,5 +99,3 @@ def gen_diff(left_file_path, right_file_path):
     diff = {**left_diff, **right_diff, **intersec}
     output_string = make_output_str(diff, "")
     return '{\n' + output_string + '}'
-
-print(gen_diff("./tests/fixtures/file1.json", "./tests/fixtures/file2.json"))
