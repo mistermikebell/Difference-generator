@@ -1,6 +1,6 @@
 # Difference generator
 
-![Python CI](https://github.com/mistermikebell/python-project-lvl2/workflows/Python%20CI/badge.svg) [![Maintainability](https://api.codeclimate.com/v1/badges/763d93e1f69357e50e8a/maintainability)](https://codeclimate.com/github/mistermikebell/python-project-lvl2/maintainability) [![Build Status](https://travis-ci.com/mistermikebell/python-project-lvl2.svg?branch=main)](https://travis-ci.com/mistermikebell/python-project-lvl2)
+![Python CI](https://github.com/mistermikebell/python-project-lvl2/workflows/Python%20CI/badge.svg) [![Maintainability](https://api.codeclimate.com/v1/badges/763d93e1f69357e50e8a/maintainability)](https://codeclimate.com/github/mistermikebell/python-project-lvl2/maintainability) [![Build Status](https://travis-ci.com/mistermikebell/python-project-lvl2.svg?branch=main)](https://travis-ci.com/mistermikebell/python-project-lvl2) [![Test Coverage](https://api.codeclimate.com/v1/badges/763d93e1f69357e50e8a/test_coverage)](https://codeclimate.com/github/mistermikebell/python-project-lvl2/test_coverage)
 
 Difference generator is the second project on Hexlet.
 
