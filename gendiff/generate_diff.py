@@ -86,7 +86,7 @@ def make_output_str(diff, output):
     return output
 
 
-def generate_diff(left_file_path, right_file_path):
+def gen_diff(left_file_path, right_file_path):
     left_file = json.load(open(left_file_path))
     right_file = json.load(open(right_file_path))
     right_diff = get_difference(left_file,
