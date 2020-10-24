@@ -1,7 +1,7 @@
 
-import json
+from gendiff.file_loader import load_file
 
-import yaml
+from gendiff.dict_commands import get_value, get_keys
 
 
 LEFT_FILE_NEW_ITEM_STATUS = 'left difference'
@@ -11,14 +11,6 @@ ITEM_CHANGE_STATUS = 'changed'
 CHANGE_SIGNS = {'left difference': '-',
                 'right difference': '+',
                 'no change': ' '}
-
-
-def get_value(items, key):
-    return items.get(key)
-
-
-def get_keys(items):
-    return set(items.keys())
 
 
 def compile_diff_info(items, key, status):
@@ -89,12 +81,8 @@ def make_output_str(diff, output):
 
 
 def gen_diff(left_file_path, right_file_path):
-    if left_file_path.endswith('json'):
-        left_file = json.load(open(left_file_path), Loader=yaml.FullLoader)
-        right_file = json.load(open(right_file_path), Loader=yaml.FullLoader)
-    elif left_file_path.endswith('yaml'):
-        left_file = yaml.load(open(left_file_path), Loader=yaml.FullLoader)
-        right_file = yaml.load(open(right_file_path), Loader=yaml.FullLoader)
+    left_file = load_file(left_file_path)
+    right_file = load_file(right_file_path)
     right_diff = get_difference(left_file,
                                 right_file,
                                 RIGHT_FILE_NEW_ITEM_STATUS)
