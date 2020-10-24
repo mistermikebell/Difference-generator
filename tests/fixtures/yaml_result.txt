@@ -1,0 +1,10 @@
+{
+ - create_key: True
+ - likes_emacs: True
+ - uses_cvs: False
+ + boolean: True
+ + float: 25.0
+   integer: 25
+ - string: 30
+ + string: 25
+}

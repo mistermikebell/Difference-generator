@@ -1,0 +1,5 @@
+create_key: yes
+integer: 25
+string: "30"
+likes_emacs: TRUE
+uses_cvs: false

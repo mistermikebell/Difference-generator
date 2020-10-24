@@ -1,6 +1,8 @@
 
 import json
 
+import yaml
+
 
 LEFT_FILE_NEW_ITEM_STATUS = 'left difference'
 RIGHT_FILE_NEW_ITEM_STATUS = 'right difference'
@@ -87,8 +89,12 @@ def make_output_str(diff, output):
 
 
 def gen_diff(left_file_path, right_file_path):
-    left_file = json.load(open(left_file_path))
-    right_file = json.load(open(right_file_path))
+    if left_file_path.endswith('json'):
+        left_file = json.load(open(left_file_path), Loader=yaml.FullLoader)
+        right_file = json.load(open(right_file_path), Loader=yaml.FullLoader)
+    elif left_file_path.endswith('yaml'):
+        left_file = yaml.load(open(left_file_path), Loader=yaml.FullLoader)
+        right_file = yaml.load(open(right_file_path), Loader=yaml.FullLoader)
     right_diff = get_difference(left_file,
                                 right_file,
                                 RIGHT_FILE_NEW_ITEM_STATUS)
