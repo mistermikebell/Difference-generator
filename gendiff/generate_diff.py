@@ -1,95 +1,68 @@
 
 from gendiff.file_loader import load_file
 
-from gendiff.dict_commands import get_value, get_keys
+DELETED_STATUS = 'deleted'
+ADDED_STATUS = 'new'
+NO_CHANGE_STATUS = 'no change'
+CHANGED_STATUS = 'changed'
+INNER_CHANGE = 'nothing changed'
+SIGNS = {DELETED_STATUS: '-',
+         ADDED_STATUS: '+',
+         NO_CHANGE_STATUS: ' ',
+         CHANGED_STATUS: ' ',
+         INNER_CHANGE: ' '}
 
 
-LEFT_FILE_NEW_ITEM_STATUS = 'left difference'
-RIGHT_FILE_NEW_ITEM_STATUS = 'right difference'
-ITEM_NO_CHANGE_STATUS = 'no change'
-ITEM_CHANGE_STATUS = 'changed'
-CHANGE_SIGNS = {'left difference': '-',
-                'right difference': '+',
-                'no change': ' '}
+def compile_info(key, value, status):
+    if status != NO_CHANGE_STATUS and isinstance(value, dict):
+        return (key, {'status': status, 'value': dict(map(lambda k: compile_info(k, value[k], 'nothing changed'), value.keys()))})
+    elif status == CHANGED_STATUS:
+        value = [dict(map(lambda k: compile_info(k, v[k], INNER_CHANGE), v.keys())) if isinstance(v, dict) else v for v in value]
+        value = [{'status': DELETED_STATUS, 'value': value[0]}, {'status': ADDED_STATUS, 'value': value[1]}]
+    return (key, {'status': status, 'value': value})
 
 
-def compile_diff_info(items, key, status):
-    return key, {'status': status,
-                 'value': get_value(items, key)}
+def stylish(diff):
+    def iter_str(node, output, level):
+        for key, info in node.items():
+            if info['status'] == CHANGED_STATUS:
+                for v in info['value']:
+                    output += iter_str({key: v}, '', level)
+            elif isinstance(info['value'], dict):
+                after_bracket = '    ' * level + '}'
+                new_output = '{\n' + iter_str(info['value'], '', level + 1) + after_bracket
+                sign = SIGNS[info['status']]
+                key = '   ' * level + sign + ' ' + key
+                output += '{}: {}\n'.format(key, new_output)
+            else:
+                sign = SIGNS[info['status']]
+                key = '   ' * level + sign + ' ' + key
+                output += '{}: {}\n'.format(key, info['value'])
+        return output
+    return '{\n' + iter_str(diff, '', 1) + '}'
 
 
-def get_difference(compare_file, target_file, status):
-    keys_compare = get_keys(compare_file)
-    keys_target = get_keys(target_file)
-    diff_keys = keys_target - keys_compare
-    diff_items = dict(map(
-        lambda key: compile_diff_info(target_file, key, status),
-        diff_keys)
-    )
-    return dict(sorted(diff_items.items()))
-
-
-def is_values_simillar(left_file, right_file, key):
-    val_left = get_value(left_file, key)
-    val_right = get_value(right_file, key)
-    if val_left == val_right:
-        return True
-    return False
-
-
-def get_intersec(left_file, right_file):
-    keys_left = get_keys(left_file)
-    keys_right = get_keys(right_file)
-    intersec = keys_right & keys_left
-    adjusted_intersec = dict()
+def make_diff(before_dict, after_dict):
+    added_keys = sorted(list(after_dict.keys() - before_dict.keys()))
+    added_items = dict(map(lambda key: compile_info(key, after_dict[key], ADDED_STATUS), added_keys))
+    deleted_keys = sorted(list(before_dict.keys() - after_dict.keys()))
+    deleted_items = dict(map(lambda key: compile_info(key, before_dict[key], DELETED_STATUS), deleted_keys))
+    intersec = sorted(list(before_dict.keys() & after_dict.keys()))
+    adjusted_intersec = {}
     for key in intersec:
-        if is_values_simillar(left_file, right_file, key):
-            adjusted_intersec.update(
-                dict([compile_diff_info(right_file,
-                                        key,
-                                        ITEM_NO_CHANGE_STATUS)]
-                     )
-            )
+        if isinstance(before_dict[key], dict) and isinstance(after_dict[key], dict):
+            adjusted_value = make_diff(before_dict[key], after_dict[key])
+            adjusted_intersec.update(dict([compile_info(key, adjusted_value, NO_CHANGE_STATUS)]))
+        elif before_dict[key] == after_dict[key]:
+            adjusted_intersec.update(dict([compile_info(key, before_dict[key], NO_CHANGE_STATUS)]))
         else:
-            adjusted_intersec[key] = {
-                'status': ITEM_CHANGE_STATUS,
-                'values': {
-                    'value_1':
-                        dict([compile_diff_info(left_file,
-                                                key,
-                                                LEFT_FILE_NEW_ITEM_STATUS)]),
-                    'value_2':
-                        dict([compile_diff_info(right_file,
-                                                key,
-                                                RIGHT_FILE_NEW_ITEM_STATUS)])
-                }
-            }
-    return dict(sorted(adjusted_intersec.items()))
+            adjusted_intersec.update(dict([compile_info(key, [before_dict[key], after_dict[key]], CHANGED_STATUS)]))
+    return {**added_items, **deleted_items, **adjusted_intersec}
 
 
-def make_output_str(diff, output):
-    for key, info in diff.items():
-        if info['status'] == 'changed':
-            for item in info['values'].values():
-                output = make_output_str(item, output)
-        else:
-            status = get_value(info, 'status')
-            sign = CHANGE_SIGNS.get(status)
-            value = get_value(info, 'value')
-            output += ' {} {}: {}\n'.format(sign, key, value)
+def gen_diff(before_file_path, after_file_path):
+    before_file = load_file(before_file_path)
+    after_file = load_file(after_file_path)
+    diff = make_diff(before_file, after_file)
+    output = stylish(diff)
     return output
-
-
-def gen_diff(left_file_path, right_file_path):
-    left_file = load_file(left_file_path)
-    right_file = load_file(right_file_path)
-    right_diff = get_difference(left_file,
-                                right_file,
-                                RIGHT_FILE_NEW_ITEM_STATUS)
-    left_diff = get_difference(right_file,
-                               left_file,
-                               LEFT_FILE_NEW_ITEM_STATUS)
-    intersec = get_intersec(left_file, right_file)
-    diff = {**left_diff, **right_diff, **intersec}
-    output_string = make_output_str(diff, "")
-    return '{\n' + output_string + '}'
