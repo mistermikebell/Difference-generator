@@ -2,8 +2,11 @@
 
 """ Generate difference test """
 from gendiff.formaters.stylish import stylish
+
 from gendiff.formaters.plain import plain
+
 from gendiff.formaters.json_formating import json
+
 from gendiff.generate_diff import gen_diff
 
 
