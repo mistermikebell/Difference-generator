@@ -1,4 +1,4 @@
-from gendiff.statuses import *
+from gendiff.statuses import NO_CHANGE_STATUS, CHANGED_STATUS, ADDED_STATUS, DELETED_STATUS
 
 
 def plain(diff):

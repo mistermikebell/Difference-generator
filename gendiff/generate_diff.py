@@ -1,12 +1,8 @@
 from gendiff.file_loader import load_file
 
+from gendiff.statuses import NO_CHANGE_STATUS, CHANGED_STATUS, INNER_CHANGE, ADDED_STATUS, DELETED_STATUS
 from gendiff.formaters.plain import plain
-
-from gendiff.formaters.stylish import stylish
-
 from gendiff.formaters.json_formating import json
-
-from gendiff.statuses import *
 
 
 def compile_info(key, value, status):
@@ -41,3 +37,5 @@ def gen_diff(before_file_path, after_file_path, format):
     after_file = load_file(after_file_path)
     diff = make_diff(before_file, after_file)
     return format(diff)
+
+print(gen_diff('../tests/fixtures/file1b.yaml', '../tests/fixtures/file2b.yaml', json))

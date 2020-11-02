@@ -1,4 +1,4 @@
-from gendiff.statuses import *
+from gendiff.statuses import CHANGED_STATUS, SIGNS
 
 def stylish(diff):
     def iter_str(node, output, level):
