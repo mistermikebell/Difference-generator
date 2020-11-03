@@ -5,7 +5,7 @@
 Difference generator is the second project on Hexlet.
 
 ### Installation
-Run the next command to install the first package:
+Run the next command to install the package:
 ```
 python3 -m pip install --user -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple mistermikebell-gendiff==0.7.1
 
