@@ -4,11 +4,19 @@
 
 Difference generator is the second project on Hexlet.
 
-### The first task
-Run the next commands to execute the first program:
+### Installation
+Run the next command to install the first package:
 ```
-python3 -m pip install --user -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple mistermikebell-gendiff==0.4.0
-gendiff [left_file] [second_file]
+python3 -m pip install --user -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple mistermikebell-gendiff==0.7.1
+
 ```
-    
-[![asciicast](https://asciinema.org/a/X0n95xX4LWnFGafnotHcQlHoF.svg)](https://asciinema.org/a/X0n95xX4LWnFGafnotHcQlHoF)
+<script id="asciicast-kc9yVJ1AcLFxQv4Qhx2fgRCTe" src="https://asciinema.org/a/kc9yVJ1AcLFxQv4Qhx2fgRCTe.js" async></script>
+
+### Get difference between two files
+Run the next commant and the program show you the difference between files
+```
+gendiff [old file] [updated file]
+
+```
+
+<script id="asciicast-rR03zpN9CUt0lxdEO8JVszsmC" src="https://asciinema.org/a/rR03zpN9CUt0lxdEO8JVszsmC.js" async></script>

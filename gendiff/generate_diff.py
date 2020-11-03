@@ -1,5 +1,4 @@
 from gendiff.file_loader import load_file
-
 from gendiff.statuses import NO_CHANGE_STATUS, CHANGED_STATUS, INNER_CHANGE, \
     ADDED_STATUS, DELETED_STATUS
 
@@ -55,8 +54,8 @@ def make_diff(before_dict, after_dict):
     return {**added_items, **deleted_items, **adjusted_intersec}
 
 
-def gen_diff(before_file_path, after_file_path, format):
+def gen_diff(before_file_path, after_file_path, formater):
     before_file = load_file(before_file_path)
     after_file = load_file(after_file_path)
     diff = make_diff(before_file, after_file)
-    return format(diff)
+    return formater(diff)
