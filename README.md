@@ -26,14 +26,25 @@ You are able to get difference between complex files as well:
 
 [![asciicast](https://asciinema.org/a/U3pG1xcc1GdsdyrpA7KcWH3EG.svg)](https://asciinema.org/a/U3pG1xcc1GdsdyrpA7KcWH3EG)
 
-Pay attention that default format of an output is Stylish json. There are three formats in total: Stylish, Plain, and Json
+###Other formats
+Pay attention that default format of an output is Stylish json. There are three formats in total: Stylish, Plain, and Json.
 To get a difference with another format add literal <b>-f</b> and specify one of formats:
 
-Plain format
+####Plain format
+```
+gendiff [old file] [updated file] -f plain
+
+```
 [![asciicast](https://asciinema.org/a/7oU0bA0JjPzxnVFEZ5Iy07CzL.svg)](https://asciinema.org/a/7oU0bA0JjPzxnVFEZ5Iy07CzL)
 
-JSON format
+####JSON format
+```
+gendiff [old file] [updated file] -f plain
+
+```
 [![asciicast](https://asciinema.org/a/sJwRvFDbOAwk1s86lrICI1PJG.svg)](https://asciinema.org/a/sJwRvFDbOAwk1s86lrICI1PJG)
 
+####YAML files
 You also may use YAML files:
+
 [![asciicast](https://asciinema.org/a/IMWSe0I9uI0T60SwfjaREARV5.svg)](https://asciinema.org/a/IMWSe0I9uI0T60SwfjaREARV5)
