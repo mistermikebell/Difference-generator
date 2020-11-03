@@ -10,13 +10,30 @@ Run the next command to install the first package:
 python3 -m pip install --user -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple mistermikebell-gendiff==0.7.1
 
 ```
-<script id="asciicast-kc9yVJ1AcLFxQv4Qhx2fgRCTe" src="https://asciinema.org/a/kc9yVJ1AcLFxQv4Qhx2fgRCTe.js" async></script>
+[![asciicast](https://asciinema.org/a/kc9yVJ1AcLFxQv4Qhx2fgRCTe.svg)](https://asciinema.org/a/kc9yVJ1AcLFxQv4Qhx2fgRCTe)
 
 ### Get difference between two files
-Run the next commant and the program show you the difference between files
+Run the next command and the program show you the difference between files
 ```
 gendiff [old file] [updated file]
 
 ```
 
-<script id="asciicast-rR03zpN9CUt0lxdEO8JVszsmC" src="https://asciinema.org/a/rR03zpN9CUt0lxdEO8JVszsmC.js" async></script>
+[![asciicast](https://asciinema.org/a/rR03zpN9CUt0lxdEO8JVszsmC.svg)](https://asciinema.org/a/rR03zpN9CUt0lxdEO8JVszsmC)
+
+
+You are able to get difference between complex files as well:
+
+[![asciicast](https://asciinema.org/a/U3pG1xcc1GdsdyrpA7KcWH3EG.svg)](https://asciinema.org/a/U3pG1xcc1GdsdyrpA7KcWH3EG)
+
+Pay attention that default format of an output is Stylish json. There are three formats in total: Stylish, Plain, and Json
+To get a difference with another format add literal <b>-f</b> and specify one of formats:
+
+Plain format
+[![asciicast](https://asciinema.org/a/7oU0bA0JjPzxnVFEZ5Iy07CzL.svg)](https://asciinema.org/a/7oU0bA0JjPzxnVFEZ5Iy07CzL)
+
+JSON format
+[![asciicast](https://asciinema.org/a/sJwRvFDbOAwk1s86lrICI1PJG.svg)](https://asciinema.org/a/sJwRvFDbOAwk1s86lrICI1PJG)
+
+You also may use YAML files:
+[![asciicast](https://asciinema.org/a/IMWSe0I9uI0T60SwfjaREARV5.svg)](https://asciinema.org/a/IMWSe0I9uI0T60SwfjaREARV5)
