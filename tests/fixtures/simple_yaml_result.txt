@@ -1,10 +1,10 @@
 {
    + boolean: True
-   + float: 25.0
    - create_key: True
-   - likes_emacs: True
-   - uses_cvs: False
+   + float: 25.0
      integer: 25
+   - likes_emacs: True
    - string: 30
    + string: 25
+   - uses_cvs: False
 }

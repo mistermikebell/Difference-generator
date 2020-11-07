@@ -1,23 +1,31 @@
-from gendiff.statuses import CHANGED_STATUS, SIGNS
+from gendiff.constants import CHANGED, REMOVED, ADDED, SIGNS, NO_CHANGE, INDENT
 
 
-def stylish(diff):
-    def iter_str(node, output, level):
+def stylish(diff, sorting=False):
+    output = []
+    def iter_str(node, level):
+        if sorting:
+            node = dict(sorted(node.items()))
         for key, info in node.items():
-            if info['status'] == CHANGED_STATUS:
-                for v in info['value']:
-                    output += iter_str({key: v}, '', level)
-            elif isinstance(info['value'], dict):
-                after_bracket = '   ' * level + '  }'
-                new_output = '{\n' + \
-                             iter_str(info['value'], '', level + 1) + \
-                             after_bracket
-                sign = SIGNS[info['status']]
-                key = '   ' * level + sign + ' ' + key
-                output += '{}: {}\n'.format(key, new_output)
+            indent = INDENT * level
+            if isinstance(info, tuple):
+                status = info[0]
+                sign = SIGNS[info[0]]
+                value = info[1]
             else:
-                sign = SIGNS[info['status']]
-                key = '   ' * level + sign + ' ' + key
-                output += '{}: {}\n'.format(key, info['value'])
-        return output
-    return '{\n' + iter_str(diff, '', 1) + '}'
+                status = NO_CHANGE
+                sign = SIGNS[NO_CHANGE]
+                value = info
+            if status == CHANGED:
+                iter_str({key: (REMOVED, value[0])}, level)
+                iter_str({key: (ADDED, value[1])}, level)
+            elif isinstance(value, dict):
+                key = "".join([indent, sign, ' ', key, ': {'])
+                output.append(key)
+                iter_str(value, level + 1)
+                output.append(indent + '  }')
+            else:
+                key = "".join([indent, sign, ' ', key])
+                output.append('{}: {}'.format(key, value))
+    iter_str(diff, 1)
+    return '{\n' + '\n'.join(output) + '\n}'

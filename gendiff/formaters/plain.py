@@ -1,31 +1,38 @@
-from gendiff.statuses import NO_CHANGE_STATUS, CHANGED_STATUS, \
-    ADDED_STATUS, DELETED_STATUS
+from gendiff.constants import NO_CHANGE, CHANGED, ADDED, REMOVED
 
 
-def plain(diff):
-    def iter_str(node, output, path):
+def plain(diff, sorting=False):
+    output = []
+    def iter_str(node, path):
+        if sorting:
+            node = dict(sorted(node.items()))
         for key, info in node.items():
-            if info['status'] == NO_CHANGE_STATUS \
-              and isinstance(info['value'], dict):
-                new_output = iter_str(info['value'], '', path + key + '.')
-                output += new_output
+            if info[0] == NO_CHANGE and isinstance(info[1], dict):
+                iter_str(info[1], path + key + '.')
                 path = ''
-            if info['status'] in [ADDED_STATUS, DELETED_STATUS]:
-                if isinstance(info['value'], dict):
-                    val = '[complex value]'
-                else:
-                    val = "'{}'".format(str(info['value']))
-                if info['status'] == ADDED_STATUS:
-                    output += "Property '{}{}' was \
-added with value: {}\n".format(path, key, val)
-                else:
-                    output += "Property '{}{}' was removed\n".format(path, key)
-            if info['status'] == CHANGED_STATUS:
-                val = ['[complex value]'
-                       if isinstance(val, dict)
-                       else "'{}'".format(str(info['value']))
-                       for val in info['value']]
-                output += "Property '{}{}' was updated. \
-From {} to {}\n".format(path, key, val[0], val[1])
-        return output
-    return iter_str(diff, '', '')[:-1]
+            if isinstance(info[1], list):
+                value = info[1]
+            else:
+                value = [info[1]]
+            adjusted_value = ['[complex value]'
+                              if isinstance(val, dict)
+                              else "'{}'".format(str(val))
+                              for val in value]
+            if info[0] == ADDED:
+                output_string = "".join(["Property '",
+                                         path, key,
+                                         "' was added with value: ",
+                                         adjusted_value[0]])
+                output.append(output_string)
+            if info[0] == REMOVED:
+                output_string = "".join(["Property ", path, key,
+                                         " was removed"])
+                output.append(output_string)
+            if info[0] == CHANGED:
+                output_string = "".join(["Property '", path, key,
+                                         "' was updated. From ",
+                                         adjusted_value[0]," to ",
+                                         adjusted_value[1]])
+                output.append(output_string)
+    iter_str(diff, '')
+    return '\n'.join(output)
