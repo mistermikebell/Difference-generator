@@ -17,7 +17,7 @@ def plain(diff, sorting=False):
                 value = [info[1]]
             adjusted_value = ['[complex value]'
                               if isinstance(val, dict)
-                              else "'{}'".format(str(val))
+                              else "'{}'".format(val)
                               for val in value]
             if info[0] == ADDED:
                 output_string = "".join(["Property '",
