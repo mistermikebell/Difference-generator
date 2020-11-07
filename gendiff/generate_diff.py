@@ -17,7 +17,9 @@ def make_diff(before_dict, after_dict):
         elif before_dict[key] == after_dict[key]:
             adjusted_intersec.update({key: (NO_CHANGE, before_dict[key])})
         else:
-            adjusted_intersec.update({key: (CHANGED, [before_dict[key], after_dict[key]])})
+            adjusted_intersec.update({key: (CHANGED,
+                                            [before_dict[key],
+                                             after_dict[key]])})
     return {**added_items, **removed_items, **adjusted_intersec}
 
 

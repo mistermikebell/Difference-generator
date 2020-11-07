@@ -2,6 +2,11 @@ import json
 import yaml
 
 
+def open_and_read(file_path):
+    with open(file_path) as result_file:
+        return result_file.read()
+
+
 def load_file(file_path):
     if file_path.endswith('.json'):
         with open(file_path) as file_for_read:

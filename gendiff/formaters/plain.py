@@ -3,6 +3,7 @@ from gendiff.constants import NO_CHANGE, CHANGED, ADDED, REMOVED
 
 def plain(diff, sorting=False):
     output = []
+
     def iter_str(node, path):
         if sorting:
             node = dict(sorted(node.items()))
@@ -31,7 +32,7 @@ def plain(diff, sorting=False):
             if info[0] == CHANGED:
                 output_string = "".join(["Property '", path, key,
                                          "' was updated. From ",
-                                         adjusted_value[0]," to ",
+                                         adjusted_value[0], " to ",
                                          adjusted_value[1]])
                 output.append(output_string)
     iter_str(diff, '')
