@@ -1,39 +1,40 @@
-from gendiff.constants import NO_CHANGE, CHANGED, ADDED, REMOVED
+REMOVED = 'removed'
+ADDED = 'added'
+NO_CHANGED = 'no_changed'
+CHANGED = 'changed'
+NESTED = 'nested'
+SIGNS = {REMOVED: '-',
+         ADDED: '+',
+         CHANGED: ' ',
+         NESTED: ' '}
+ADDED_MESSAGE = "Property '{}{}' was added with value: {}"
+REMOVED_MESSAGE = "Property '{}{}' was removed"
+CHANGED_MESSAGE = "Property '{}{}' was updated. From {} to {}"
 
 
-def plain(diff, sorting=False):
+def plain(diff):
     output = []
-
-    def iter_str(node, path):
-        if sorting:
-            node = dict(sorted(node.items()))
-        for key, info in node.items():
-            if info[0] == NO_CHANGE and isinstance(info[1], dict):
-                iter_str(info[1], path + key + '.')
+    def iter_str(tree, path):
+        for key in sorted(tree.keys()):
+            status, value = tree[key]
+            if status == NESTED and isinstance(value, dict):
+                iter_str(value, path + key + '.')
                 path = ''
-            if isinstance(info[1], list):
-                value = info[1]
-            else:
-                value = [info[1]]
+            if not isinstance(value, list):
+                value = [value]
             adjusted_value = ['[complex value]'
                               if isinstance(val, dict)
                               else "'{}'".format(val)
                               for val in value]
-            if info[0] == ADDED:
-                output_string = "".join(["Property '",
-                                         path, key,
-                                         "' was added with value: ",
-                                         adjusted_value[0]])
-                output.append(output_string)
-            if info[0] == REMOVED:
-                output_string = "".join(["Property ", path, key,
-                                         " was removed"])
-                output.append(output_string)
-            if info[0] == CHANGED:
-                output_string = "".join(["Property '", path, key,
-                                         "' was updated. From ",
-                                         adjusted_value[0], " to ",
-                                         adjusted_value[1]])
-                output.append(output_string)
+            if status == ADDED:
+                output.append(ADDED_MESSAGE.format(path,
+                                                   key,
+                                                   adjusted_value[0]))
+            if status == REMOVED:
+                output.append(REMOVED_MESSAGE.format(path, key))
+            if status == CHANGED:
+                output.append(CHANGED_MESSAGE.format(path, key,
+                                                     adjusted_value[0],
+                                                     adjusted_value[1]))
     iter_str(diff, '')
     return '\n'.join(output)

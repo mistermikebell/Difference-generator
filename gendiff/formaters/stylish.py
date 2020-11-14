@@ -1,32 +1,37 @@
-from gendiff.constants import CHANGED, REMOVED, ADDED, SIGNS, NO_CHANGE, INDENT
+REMOVED = 'removed'
+ADDED = 'added'
+NO_CHANGED = 'no_changed'
+CHANGED = 'changed'
+NESTED = 'nested'
+INDENT = '   '
+SIGNS = {REMOVED: '-',
+         ADDED: '+',
+         CHANGED: ' ',
+         NESTED: ' ',
+         NO_CHANGED: ' '}
 
 
-def stylish(diff, sorting=False):
+def stylish(diff):
     output = []
-
-    def iter_str(node, level):
-        if sorting:
-            node = dict(sorted(node.items()))
-        for key, info in node.items():
+    def iter_str(tree, level):
+        for key in sorted(tree.keys()):
             indent = INDENT * level
-            if isinstance(info, tuple):
-                status = info[0]
-                sign = SIGNS[info[0]]
-                value = info[1]
+            if isinstance(tree[key], tuple):
+                status, value = tree[key]
+                sign = SIGNS[status]
             else:
-                status = NO_CHANGE
-                sign = SIGNS[NO_CHANGE]
-                value = info
+                status = NO_CHANGED
+                sign = SIGNS[NO_CHANGED]
+                value = tree[key]
             if status == CHANGED:
                 iter_str({key: (REMOVED, value[0])}, level)
                 iter_str({key: (ADDED, value[1])}, level)
             elif isinstance(value, dict):
-                key = "".join([indent, sign, ' ', key, ': {'])
-                output.append(key)
+                row = "{}{} {}: {{".format(indent, sign, key)
+                output.append(row)
                 iter_str(value, level + 1)
                 output.append(indent + '  }')
             else:
-                key = "".join([indent, sign, ' ', key])
-                output.append('{}: {}'.format(key, value))
+                output.append('{}{} {}: {}'.format(indent, sign, key, value))
     iter_str(diff, 1)
     return '{\n' + '\n'.join(output) + '\n}'
