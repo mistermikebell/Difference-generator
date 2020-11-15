@@ -14,6 +14,7 @@ CHANGED_MESSAGE = "Property '{}{}' was updated. From {} to {}"
 
 def plain(diff):
     output = []
+
     def iter_str(tree, path):
         for key in sorted(tree.keys()):
             status, value = tree[key]

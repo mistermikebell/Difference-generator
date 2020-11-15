@@ -13,6 +13,7 @@ SIGNS = {REMOVED: '-',
 
 def stylish(diff):
     output = []
+
     def iter_str(tree, level):
         for key in sorted(tree.keys()):
             indent = INDENT * level
