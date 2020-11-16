@@ -1,5 +1,5 @@
 from gendiff.file_loader import load_file
-from gendiff.formaters.stylish import stylish
+
 REMOVED = 'removed'
 ADDED = 'added'
 NO_CHANGED = 'no_changed'
@@ -29,4 +29,3 @@ def gen_diff(before_file_path, after_file_path, formater):
     after_file = load_file(after_file_path)
     diff = make_diff(before_file, after_file)
     return formater(diff)
-print(gen_diff('../tests/fixtures/file1.yaml', '../tests/fixtures/file2.yaml', stylish))
