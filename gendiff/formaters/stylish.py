@@ -3,7 +3,6 @@ ADDED = 'added'
 NO_CHANGED = 'no_changed'
 CHANGED = 'changed'
 NESTED = 'nested'
-INDENT = '  '
 SIGNS = {REMOVED: '-',
          ADDED: '+',
          CHANGED: ' ',
@@ -14,9 +13,9 @@ SIGNS = {REMOVED: '-',
 def stylish(diff):
     output = []
 
-    def iter_str(tree, level):
+    def iter_str(tree, indent):
         for key in sorted(tree.keys()):
-            indent = level
+            indent
             if isinstance(tree[key], tuple):
                 status, value = tree[key]
                 sign = SIGNS[status]
@@ -25,12 +24,12 @@ def stylish(diff):
                 sign = SIGNS[NO_CHANGED]
                 value = tree[key]
             if status == CHANGED:
-                iter_str({key: (REMOVED, value[0])}, level)
-                iter_str({key: (ADDED, value[1])}, level)
+                iter_str({key: (REMOVED, value[0])}, indent)
+                iter_str({key: (ADDED, value[1])}, indent)
             elif isinstance(value, dict):
                 row = "{}{} {}: {{".format(indent, sign, key)
                 output.append(row)
-                iter_str(value, level + '    ')
+                iter_str(value, indent + '    ')
                 output.append(indent + '  }')
             else:
                 output.append('{}{} {}: {}'.format(indent, sign, key, value))
