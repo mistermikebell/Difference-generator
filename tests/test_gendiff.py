@@ -1,8 +1,10 @@
-from gendiff.formaters import stylish, plain, json_formating
-from gendiff.generate_diff import gen_diff
-from gendiff.file_loader import load_file
 import json
+
 import yaml
+
+from gendiff.formaters import json_formating, plain, stylish
+from gendiff.file_loader import load_file
+from gendiff.generate_diff import gen_diff
 
 
 def open_and_read(file_path):
@@ -72,3 +74,5 @@ def test_yaml_files_with_json():
                                      "./tests/fixtures/file2b.yaml",
                                      json_formating.json))
     assert output == result
+
+test_json_files_with_stylish()

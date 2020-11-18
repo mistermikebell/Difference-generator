@@ -1,4 +1,5 @@
 import argparse
+
 from gendiff.generate_diff import gen_diff
 from gendiff.formaters.format_choice import choose_formater
 

@@ -1,8 +1,5 @@
-REMOVED = 'removed'
-ADDED = 'added'
-NO_CHANGED = 'no_changed'
-CHANGED = 'changed'
-NESTED = 'nested'
+from gendiff.generate_diff import REMOVED, ADDED, CHANGED, NO_CHANGED, NESTED
+
 SIGNS = {REMOVED: '-',
          ADDED: '+',
          CHANGED: ' ',
@@ -13,9 +10,8 @@ SIGNS = {REMOVED: '-',
 def stylish(diff):
     output = []
 
-    def iter_str(tree, indent):
+    def iter(tree, indent):
         for key in sorted(tree.keys()):
-            indent
             if isinstance(tree[key], tuple):
                 status, value = tree[key]
                 sign = SIGNS[status]
@@ -24,14 +20,14 @@ def stylish(diff):
                 sign = SIGNS[NO_CHANGED]
                 value = tree[key]
             if status == CHANGED:
-                iter_str({key: (REMOVED, value[0])}, indent)
-                iter_str({key: (ADDED, value[1])}, indent)
+                iter({key: (REMOVED, value[0])}, indent)
+                iter({key: (ADDED, value[1])}, indent)
             elif isinstance(value, dict):
                 row = "{}{} {}: {{".format(indent, sign, key)
                 output.append(row)
-                iter_str(value, indent + '    ')
+                iter(value, indent + '    ')
                 output.append(indent + '  }')
             else:
                 output.append('{}{} {}: {}'.format(indent, sign, key, value))
-    iter_str(diff, '  ')
+    iter(diff, '  ')
     return '{\n' + '\n'.join(output) + '\n}'
