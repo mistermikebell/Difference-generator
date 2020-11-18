@@ -1,3 +1,3 @@
 # -*- coding:utf-8 -*-
 
-"""Learning project."""
+"""Generate difference between two files."""
