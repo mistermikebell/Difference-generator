@@ -74,5 +74,3 @@ def test_yaml_files_with_json():
                                      "./tests/fixtures/file2b.yaml",
                                      json_formating.json))
     assert output == result
-
-test_json_files_with_stylish()
