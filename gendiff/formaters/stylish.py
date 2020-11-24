@@ -1,10 +1,10 @@
-from gendiff.generate_diff import REMOVED, ADDED, CHANGED, NO_CHANGED, NESTED
+from gendiff.generate_diff import REMOVED, ADDED, CHANGED, UNCHANGED, NESTED
 
 SIGNS = {REMOVED: '-',
          ADDED: '+',
          CHANGED: ' ',
          NESTED: ' ',
-         NO_CHANGED: ' '}
+         UNCHANGED: ' '}
 
 
 def stylish(diff):
@@ -16,8 +16,8 @@ def stylish(diff):
                 status, value = tree[key]
                 sign = SIGNS[status]
             else:
-                status = NO_CHANGED
-                sign = SIGNS[NO_CHANGED]
+                status = UNCHANGED
+                sign = SIGNS[UNCHANGED]
                 value = tree[key]
             if status == CHANGED:
                 iter({key: (REMOVED, value[0])}, indent)

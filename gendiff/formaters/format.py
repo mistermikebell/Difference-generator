@@ -7,7 +7,7 @@ PLAIN = 'plain'
 STYLISH = 'stylish'
 
 
-def choose_formater(formater):
+def choose(formater):
     formaters = {
         JSON: json,
         PLAIN: plain,

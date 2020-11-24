@@ -1,6 +1,4 @@
-import json
-
-import yaml
+import pytest
 
 from gendiff.formaters import json_formating, plain, stylish
 from gendiff.file_loader import load_file
@@ -28,49 +26,31 @@ def test_simple_yaml_files():
     assert output == result
 
 
-def test_json_files_with_stylish():
-    result = open_and_read("./tests/fixtures/stylish_result.txt")
-    output = gen_diff("./tests/fixtures/file1b.json",
-                      "./tests/fixtures/file2b.json",
-                      stylish.stylish)
-    assert output == result
+@pytest.mark.parametrize(gen_diff("./tests/fixtures/file1b.json",
+                                  "./tests/fixtures/file2b.json",
+                                  stylish.stylish))
+@pytest.mark.parametrize(gen_diff("./tests/fixtures/file1b.yaml",
+                                  "./tests/fixtures/file2b.yaml",
+                                  stylish.stylish))
+def test_stylish(output):
+    assert output == open_and_read("./tests/fixtures/stylish_result.txt")
 
 
-def test_yaml_files_with_stylish():
-    result = open_and_read("./tests/fixtures/stylish_result.txt")
-    output = gen_diff("./tests/fixtures/file1b.yaml",
-                      "./tests/fixtures/file2b.yaml",
-                      stylish.stylish)
-    assert output == result
+@pytest.mark.parametrize(gen_diff("./tests/fixtures/file1b.json",
+                                  "./tests/fixtures/file2b.json",
+                                  plain.plain))
+@pytest.mark.parametrize(gen_diff("./tests/fixtures/file1b.yaml",
+                         "./tests/fixtures/file2b.yaml",
+                         plain.plain))
+def test_plain(output):
+    assert output == open_and_read("./tests/fixtures/plain_result.txt")
 
 
-def test_json_files_with_plain():
-    result = open_and_read("./tests/fixtures/plain_result.txt")
-    output = gen_diff("./tests/fixtures/file1b.json",
-                      "./tests/fixtures/file2b.json",
-                      plain.plain)
-    assert output == result
-
-
-def test_yaml_files_with_plain():
-    result = open_and_read("./tests/fixtures/plain_result.txt")
-    output = gen_diff("./tests/fixtures/file1b.yaml",
-                      "./tests/fixtures/file2b.yaml",
-                      plain.plain)
-    assert output == result
-
-
-def test_json_files_with_json():
-    result = load_file("./tests/fixtures/json_result.json")
-    output = json.loads(gen_diff("./tests/fixtures/file1b.json",
+@pytest.mark.parametrize(gen_diff("./tests/fixtures/file1b.json",
                                  "./tests/fixtures/file2b.json",
                                  json_formating.json))
-    assert output == result
-
-
-def test_yaml_files_with_json():
-    result = load_file("./tests/fixtures/json_result.json")
-    output = yaml.safe_load(gen_diff("./tests/fixtures/file1b.yaml",
-                                     "./tests/fixtures/file2b.yaml",
-                                     json_formating.json))
-    assert output == result
+@pytest.mark.parametrize(gen_diff("./tests/fixtures/file1b.yaml",
+                                  "./tests/fixtures/file2b.yaml",
+                                  json_formating.json))
+def test_json_files_with_json(output):
+    assert output == load_file("./tests/fixtures/json_result.json")

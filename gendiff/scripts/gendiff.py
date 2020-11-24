@@ -1,7 +1,7 @@
 import argparse
 
 from gendiff.generate_diff import gen_diff
-from gendiff.formaters.format_choice import choose_formater
+from gendiff.formaters.format import choose
 
 
 def main():
@@ -11,7 +11,7 @@ def main():
     parser.add_argument(
         '-f',
         '--format',
-        type=choose_formater,
+        type=choose,
         default='stylish',
         help='set format of output')
     args = parser.parse_args()
