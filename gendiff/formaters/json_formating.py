@@ -1,5 +1,5 @@
-import json as json_package
+import json as js
 
 
 def json(diff):
-    return json_package.dumps(diff)
+    return js.dumps(diff, indent=2)

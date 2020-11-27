@@ -17,11 +17,13 @@ def test_simple_stylish():
 
 
 def test():
-    path_1 = './tests/fixtures/file1.json'
-    path_2 = './tests/fixtures/file2.json'
-    expected_stylish = open_and_read('./tests/fixtures/stylish.txt')
-    expeсted_plain = open_and_read('./tests/fixtures/plain.txt')
-    expeсted_json = json.loads(open_and_read("./tests/fixtures/json.txt"))
+    path_1 = '../tests/fixtures/file1.json'
+    path_2 = '../tests/fixtures/file2.json'
+    expected_stylish = open_and_read('../tests/fixtures/stylish.txt')
+    expeсted_plain = open_and_read('../tests/fixtures/plain.txt')
+    expeсted_json = json.loads(open_and_read("../tests/fixtures/json.txt"))
     assert expected_stylish == gen_diff(path_1, path_2, stylish.stylish)
     assert expeсted_plain == gen_diff(path_1, path_2, plain.plain)
-    assert expeсted_json == gen_diff(path_1, path_2, json_formating.json)
+    assert expeсted_json == json.loads(gen_diff(path_1,
+                                                path_2,
+                                                json_formating.json))
