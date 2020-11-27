@@ -1,5 +1,6 @@
+import json
+
 from gendiff.formaters import json_formating, plain, stylish
-from gendiff.loader import load_file
 from gendiff.diff_generator import gen_diff
 
 
@@ -20,7 +21,7 @@ def test():
     path_2 = './tests/fixtures/file2.json'
     expected_stylish = open_and_read('./tests/fixtures/stylish.txt')
     expeсted_plain = open_and_read('./tests/fixtures/plain.txt')
-    expeсted_json = load_file("./tests/fixtures/json_result.json")
+    expeсted_json = json.loads(open_and_read("./tests/fixtures/json.txt"))
     assert expected_stylish == gen_diff(path_1, path_2, stylish.stylish)
     assert expeсted_plain == gen_diff(path_1, path_2, plain.plain)
     assert expeсted_json == gen_diff(path_1, path_2, json_formating.json)
