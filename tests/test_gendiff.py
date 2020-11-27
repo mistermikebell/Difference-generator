@@ -16,8 +16,8 @@ def test_simple_stylish():
 
 
 def test():
-    path_1 = './tests/fixtures/simple_file1.json'
-    path_2 = './tests/fixtures/simple_file2.json'
+    path_1 = './tests/fixtures/file1.json'
+    path_2 = './tests/fixtures/file2.json'
     expected_stylish = open_and_read('./tests/fixtures/stylish.txt')
     expeсted_plain = open_and_read('./tests/fixtures/plain.txt')
     expeсted_json = load_file("./tests/fixtures/json_result.json")
