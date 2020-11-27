@@ -1,5 +1,3 @@
-import pytest
-
 from gendiff.formaters import json_formating, plain, stylish
 from gendiff.loader import load_file
 from gendiff.diff_generator import gen_diff
@@ -10,47 +8,19 @@ def open_and_read(file_path):
         return result_file.read()
 
 
-def test_simple_json_files():
-    result = open_and_read("./tests/fixtures/simple_json_result.txt")
-    output = gen_diff("./tests/fixtures/file1.json",
-                      "./tests/fixtures/file2.json",
-                      stylish.stylish)
-    assert output == result
+def test_simple_stylish():
+    path_1 = './tests/fixtures/simple_file1.json'
+    path_2 = './tests/fixtures/simple_file2.json'
+    expected = open_and_read("./tests/fixtures/simple_stylish.txt")
+    assert expected == gen_diff(path_1, path_2, stylish.stylish)
 
 
-def test_simple_yaml_files():
-    result = open_and_read("./tests/fixtures/simple_yaml_result.txt")
-    output = gen_diff("./tests/fixtures/file1.yaml",
-                      "./tests/fixtures/file2.yaml",
-                      stylish.stylish)
-    assert output == result
-
-
-@pytest.mark.parametrize(gen_diff("./tests/fixtures/file1b.json",
-                                  "./tests/fixtures/file2b.json",
-                                  stylish.stylish))
-@pytest.mark.parametrize(gen_diff("./tests/fixtures/file1b.yaml",
-                                  "./tests/fixtures/file2b.yaml",
-                                  stylish.stylish))
-def test_stylish(output):
-    assert output == open_and_read("./tests/fixtures/stylish_result.txt")
-
-
-@pytest.mark.parametrize(gen_diff("./tests/fixtures/file1b.json",
-                                  "./tests/fixtures/file2b.json",
-                                  plain.plain))
-@pytest.mark.parametrize(gen_diff("./tests/fixtures/file1b.yaml",
-                         "./tests/fixtures/file2b.yaml",
-                         plain.plain))
-def test_plain(output):
-    assert output == open_and_read("./tests/fixtures/plain_result.txt")
-
-
-@pytest.mark.parametrize(gen_diff("./tests/fixtures/file1b.json",
-                                 "./tests/fixtures/file2b.json",
-                                 json_formating.json))
-@pytest.mark.parametrize(gen_diff("./tests/fixtures/file1b.yaml",
-                                  "./tests/fixtures/file2b.yaml",
-                                  json_formating.json))
-def test_json_files_with_json(output):
-    assert output == load_file("./tests/fixtures/son_result.json")
+def test():
+    path_1 = './tests/fixtures/simple_file1.json'
+    path_2 = './tests/fixtures/simple_file2.json'
+    expected_stylish = open_and_read('./tests/fixtures/stylish.txt')
+    expeсted_plain = open_and_read('./tests/fixtures/plain.txt')
+    expeсted_json = load_file("./tests/fixtures/json_result.json")
+    assert expected_stylish == gen_diff(path_1, path_2, stylish.stylish)
+    assert expeсted_plain == gen_diff(path_1, path_2, plain.plain)
+    assert expeсted_json == gen_diff(path_1, path_2, json_formating.json)

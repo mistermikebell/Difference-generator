@@ -20,4 +20,3 @@ def compile(before_dict, after_dict):
         else:
             intersec[key] = (CHANGED, [before_dict[key], after_dict[key]])
     return {**added_items, **removed_items, **intersec}
-
