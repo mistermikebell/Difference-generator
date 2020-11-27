@@ -21,9 +21,3 @@ def compile(before_dict, after_dict):
             intersec[key] = (CHANGED, [before_dict[key], after_dict[key]])
     return {**added_items, **removed_items, **intersec}
 
-
-def open_and_read(file_path):
-    with open(file_path) as result_file:
-        return result_file.read()
-var = open_and_read("../tests/fixtures/json_result.json")
-print(type(var))

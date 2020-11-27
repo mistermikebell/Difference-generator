@@ -53,4 +53,4 @@ def test_plain(output):
                                   "./tests/fixtures/file2b.yaml",
                                   json_formating.json))
 def test_json_files_with_json(output):
-    assert output == load_file("./tests/fixtures/json_result.json")
+    assert output == load_file("./tests/fixtures/son_result.json")

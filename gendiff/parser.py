@@ -5,5 +5,5 @@ import yaml
 
 def parse(content, extension):
     if extension == 'json':
-        return json.load(content)
-    return yaml.load(content, Loader=yaml.SafeLoader)
+        return json.loads(content)
+    return yaml.safe_load(content)
