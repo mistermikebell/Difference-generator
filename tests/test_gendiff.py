@@ -1,8 +1,8 @@
 import pytest
 
 from gendiff.formaters import json_formating, plain, stylish
-from gendiff.file_loader import load_file
-from gendiff.generate_diff import gen_diff
+from gendiff.loader import load_file
+from gendiff.diff_generator import gen_diff
 
 
 def open_and_read(file_path):

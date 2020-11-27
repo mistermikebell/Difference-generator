@@ -1,4 +1,4 @@
-from gendiff.generate_diff import REMOVED, ADDED, CHANGED, UNCHANGED, NESTED
+from gendiff.structure_builder import REMOVED, ADDED, CHANGED, UNCHANGED, NESTED
 
 SIGNS = {REMOVED: '-',
          ADDED: '+',
