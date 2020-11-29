@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "mistermikebell-gendiff"
+name = "hexlet-code"
 version = "0.7.1"
 description = ""
 authors = ["liuxindao <jokerbell7@gmail.com>"]
