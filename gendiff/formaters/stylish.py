@@ -25,7 +25,7 @@ def stylish(diff):
             else:
                 status = UNCHANGED
                 sign = SIGNS[UNCHANGED]
-                value = stringify_bool(tree[key])
+                value = tree[key]
             if status == CHANGED:
                 iter({key: (REMOVED, value[0])}, indent)
                 iter({key: (ADDED, value[1])}, indent)
@@ -35,6 +35,7 @@ def stylish(diff):
                 iter(value, indent + '    ')
                 output.append(indent + '  }')
             else:
-                output.append('{}{} {}: {}'.format(indent, sign, key, value))
+                output.append('{}{} {}: {}'.format(indent, sign,
+                                                   key, stringify_bool(value)))
     iter(diff, '  ')
     return '{\n' + '\n'.join(output) + '\n}'
