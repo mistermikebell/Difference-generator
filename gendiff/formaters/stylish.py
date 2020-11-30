@@ -8,7 +8,7 @@ SIGNS = {REMOVED: '-',
          UNCHANGED: ' '}
 
 
-def stringify_bool(item):
+def stringify(item):
     if isinstance(item, bool):
         return str(item).lower()
     if item is None:
@@ -38,6 +38,6 @@ def stylish(diff):
                 output.append(indent + '  }')
             else:
                 output.append('{}{} {}: {}'.format(indent, sign,
-                                                   key, stringify_bool(value)))
+                                                   key, stringify(value)))
     iter(diff, '  ')
     return '{\n' + '\n'.join(output) + '\n}'

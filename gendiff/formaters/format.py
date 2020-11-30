@@ -2,15 +2,11 @@ from gendiff.formaters.json import json
 from gendiff.formaters.plain import plain
 from gendiff.formaters.stylish import stylish
 
-JSON = 'json'
-PLAIN = 'plain'
-STYLISH = 'stylish'
-
 
 def choose(formater):
     formaters = {
-        JSON: json,
-        PLAIN: plain,
-        STYLISH: stylish
+        'json': json,
+        'plain': plain,
+        'stylish': stylish
     }
     return formaters[formater]
