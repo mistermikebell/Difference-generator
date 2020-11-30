@@ -8,6 +8,12 @@ SIGNS = {REMOVED: '-',
          UNCHANGED: ' '}
 
 
+def stringify_bool(item):
+    if isinstance(item, bool):
+        return str(item).lower()
+    return item
+
+
 def stylish(diff):
     output = []
 
@@ -19,7 +25,7 @@ def stylish(diff):
             else:
                 status = UNCHANGED
                 sign = SIGNS[UNCHANGED]
-                value = tree[key]
+                value = stringify_bool(tree[key])
             if status == CHANGED:
                 iter({key: (REMOVED, value[0])}, indent)
                 iter({key: (ADDED, value[1])}, indent)
