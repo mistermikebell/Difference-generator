@@ -1,5 +1,4 @@
-from gendiff.diff_tree import (REMOVED, ADDED, CHANGED,
-                               UNCHANGED, NESTED)
+from gendiff.diff_tree import (REMOVED, ADDED, CHANGED, UNCHANGED, NESTED)
 
 SIGNS = {REMOVED: '-',
          ADDED: '+',
@@ -12,7 +11,7 @@ def stringify(item):
     if isinstance(item, bool):
         return str(item).lower()
     if item is None:
-        return "null"
+        return 'null'
     return item
 
 
@@ -32,7 +31,7 @@ def stylish(diff):
                 iter({key: (REMOVED, value[0])}, indent)
                 iter({key: (ADDED, value[1])}, indent)
             elif isinstance(value, dict):
-                row = "{}{} {}: {{".format(indent, sign, key)
+                row = '{}{} {}: {{'.format(indent, sign, key)
                 output.append(row)
                 iter(value, indent + '    ')
                 output.append(indent + '  }')
