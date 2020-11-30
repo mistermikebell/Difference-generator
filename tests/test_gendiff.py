@@ -20,3 +20,7 @@ def test(format):
     assert expected_stylish == generate_diff(path_1, path_2)
     assert expeсted_plain == generate_diff(path_1, path_2, 'plain')
     assert expeсted_json == js.loads(generate_diff(path_1, path_2, 'json'))
+
+path_1 = "../tests/fixtures/file1.json"
+path_2 = "../tests/fixtures/file2.json"
+print(generate_diff(path_1, path_2, 'plain'))
