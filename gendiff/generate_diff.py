@@ -1,15 +1,9 @@
-from gendiff.loader import load_file
-from gendiff.structure_builder import compile
-from gendiff.parser import parse
+from gendiff.loader import get_file_data
+from gendiff.diff_tree import build
 
 
-def gen_diff(before_file_path, after_file_path, formater):
-    before_content, before_extension = load_file(before_file_path)
-    before_dict = parse(before_content, before_extension)
-    after_content, after_extension = load_file(after_file_path)
-    after_dict = parse(after_content, after_extension)
-    if before_extension != after_extension:
-        raise Exception('Extensions of files are different. '
-                        'Please, specify files with one format')
-    diff = compile(before_dict, after_dict)
+def generate_diff(before_file_path, after_file_path, formater):
+    before_dict = get_file_data(before_file_path)
+    after_dict = get_file_data(after_file_path)
+    diff = build(before_dict, after_dict)
     return formater(diff)

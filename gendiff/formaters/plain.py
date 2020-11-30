@@ -1,4 +1,4 @@
-from gendiff.structure_builder import REMOVED, ADDED, CHANGED, NESTED
+from gendiff.diff_tree import REMOVED, ADDED, CHANGED, NESTED
 
 ADDED_MESSAGE = "Property '{}{}' was added with value: {}"
 REMOVED_MESSAGE = "Property '{}{}' was removed"

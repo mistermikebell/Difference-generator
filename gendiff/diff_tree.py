@@ -5,7 +5,7 @@ CHANGED = 'changed'
 NESTED = 'nested'
 
 
-def compile(before_dict, after_dict):
+def build(before_dict, after_dict):
     added_items = {key: (ADDED, after_dict[key])
                    for key in after_dict.keys() - before_dict.keys()}
     removed_items = {key: (REMOVED, before_dict[key])

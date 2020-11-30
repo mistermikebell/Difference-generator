@@ -1,5 +1,5 @@
-from gendiff.structure_builder import (REMOVED, ADDED, CHANGED,
-                                       UNCHANGED, NESTED)
+from gendiff.diff_tree import (REMOVED, ADDED, CHANGED,
+                               UNCHANGED, NESTED)
 
 SIGNS = {REMOVED: '-',
          ADDED: '+',

@@ -1,7 +1,9 @@
 import json
 
-from gendiff.formaters import json_formating, plain, stylish
-from gendiff.generate_diff import gen_diff
+import pytest
+
+from gendiff.formaters import json, plain, stylish
+from gendiff.generate_diff import generate_diff
 
 
 def open_and_read(file_path):
@@ -9,21 +11,16 @@ def open_and_read(file_path):
         return result_file.read()
 
 
-def test_simple_stylish():
-    path_1 = './tests/fixtures/simple_file1.json'
-    path_2 = './tests/fixtures/simple_file2.json'
-    expected = open_and_read("./tests/fixtures/simple_stylish.txt")
-    assert expected == gen_diff(path_1, path_2, stylish.stylish)
-
-
-def test():
-    path_1 = './tests/fixtures/file1.json'
-    path_2 = './tests/fixtures/file2.json'
+@pytest.mark.parametrize('json')
+@pytest.mark.parametrize('yaml')
+def test(format):
+    path_1 = f"./tests/fixtures/file1.{format}"
+    path_2 = f"./tests/fixtures/file2.{format}"
     expected_stylish = open_and_read('./tests/fixtures/stylish.txt')
     expeсted_plain = open_and_read('./tests/fixtures/plain.txt')
     expeсted_json = json.loads(open_and_read("./tests/fixtures/json.txt"))
-    assert expected_stylish == gen_diff(path_1, path_2, stylish.stylish)
-    assert expeсted_plain == gen_diff(path_1, path_2, plain.plain)
-    assert expeсted_json == json.loads(gen_diff(path_1,
+    assert expected_stylish == generate_diff(path_1, path_2, stylish.stylish)
+    assert expeсted_plain == generate_diff(path_1, path_2, plain.plain)
+    assert expeсted_json == json.loads(generate_diff(path_1,
                                                 path_2,
-                                                json_formating.json))
+                                                json.json))
