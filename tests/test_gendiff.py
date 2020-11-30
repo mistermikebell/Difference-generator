@@ -1,4 +1,4 @@
-import json
+import json as js
 
 import pytest
 
@@ -17,9 +17,9 @@ def test(format):
     path_2 = f"./tests/fixtures/file2.{format}"
     expected_stylish = open_and_read('./tests/fixtures/stylish.txt')
     expeсted_plain = open_and_read('./tests/fixtures/plain.txt')
-    expeсted_json = json.loads(open_and_read("./tests/fixtures/json.txt"))
+    expeсted_json = js.loads(open_and_read("./tests/fixtures/json.txt"))
     assert expected_stylish == generate_diff(path_1, path_2, stylish.stylish)
     assert expeсted_plain == generate_diff(path_1, path_2, plain.plain)
-    assert expeсted_json == json.loads(generate_diff(path_1,
+    assert expeсted_json == js.loads(generate_diff(path_1,
                                                 path_2,
                                                 json.json))
