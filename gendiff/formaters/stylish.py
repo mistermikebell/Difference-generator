@@ -18,7 +18,7 @@ def stylish(diff):
     output = []
 
     def iter(tree, indent):
-        for key in sorted(tree.keys()):
+        for key in tree.keys():
             if isinstance(tree[key], tuple):
                 status, value = tree[key]
                 sign = SIGNS[status]

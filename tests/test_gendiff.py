@@ -23,3 +23,7 @@ def test(format):
     assert expeсted_json == js.loads(generate_diff(path_1,
                                                 path_2,
                                                 json.json))
+
+path_1 = "../tests/fixtures/file1.json"
+path_2 = "../tests/fixtures/file2.json"
+print(generate_diff(path_1, path_2, plain.plain))

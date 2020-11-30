@@ -14,7 +14,7 @@ def plain(diff):
     output = []
 
     def iter(tree, path):
-        for key in sorted(tree.keys()):
+        for key in tree.keys():
             status, value = tree[key]
             if status == NESTED:
                 iter(value, path + key + '.')
