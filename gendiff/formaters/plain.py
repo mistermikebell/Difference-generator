@@ -24,7 +24,6 @@ def plain(diff):
             status, value = tree[key]
             if status == NESTED:
                 iter(value, path + key + '.')
-                path = ''
             if status == ADDED:
                 output.append(ADDED_MESSAGE.format(path,
                                                    key,
