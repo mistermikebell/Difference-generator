@@ -2,7 +2,6 @@ import json as js
 
 import pytest
 
-from gendiff.formaters import json, plain, stylish
 from gendiff.generate_diff import generate_diff
 
 
@@ -19,7 +18,5 @@ def test(format):
     expeсted_plain = open_and_read('./tests/fixtures/plain.txt')
     expeсted_json = js.loads(open_and_read("./tests/fixtures/json.txt"))
     assert expected_stylish == generate_diff(path_1, path_2)
-    assert expeсted_plain == generate_diff(path_1, path_2, plain.plain)
-    assert expeсted_json == js.loads(generate_diff(path_1,
-                                                path_2,
-                                                json.json))
+    assert expeсted_plain == generate_diff(path_1, path_2, 'plain')
+    assert expeсted_json == js.loads(generate_diff(path_1, path_2, 'json'))

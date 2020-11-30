@@ -7,7 +7,13 @@ COMPLEX_VALUE = "[complex value]"
 
 
 def stringify(item):
-    return COMPLEX_VALUE if isinstance(item, dict) else "'{}'".format(item)
+    if isinstance(item, bool):
+        return str(item).lower()
+    if item is None:
+        return "null"
+    if isinstance(item, dict):
+        return COMPLEX_VALUE
+    return "'{}'".format(item)
 
 
 def plain(diff):
