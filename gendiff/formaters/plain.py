@@ -13,6 +13,8 @@ def stringify(item):
         return "null"
     if isinstance(item, dict):
         return COMPLEX_VALUE
+    if isinstance(item, int):
+        return item
     return "'{}'".format(item)
 
 
