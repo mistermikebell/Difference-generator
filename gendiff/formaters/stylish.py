@@ -11,6 +11,8 @@ SIGNS = {REMOVED: '-',
 def stringify_bool(item):
     if isinstance(item, bool):
         return str(item).lower()
+    if item is None:
+        return "null"
     return item
 
 
