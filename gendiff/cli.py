@@ -1,7 +1,5 @@
 import argparse
 
-from gendiff.formaters import format
-
 
 def get_parse_args():
     parser = argparse.ArgumentParser(description='Generate diff')
@@ -10,7 +8,7 @@ def get_parse_args():
     parser.add_argument(
         '-f',
         '--format',
-        type=format.choose,
+        type=str,
         choices=['json', 'plain', 'stylish'],
         default='stylish',
         help='set format of output')
