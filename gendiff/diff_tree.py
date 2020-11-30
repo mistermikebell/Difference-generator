@@ -5,11 +5,7 @@ CHANGED = 'changed'
 NESTED = 'nested'
 
 
-def build(before_dict, after_dict, sort_keys=True):
-
-    def sort(keys):
-        return sorted(keys) if sort_keys else keys
-
+def build(before_dict, after_dict):
     added_items = {key: (ADDED, after_dict[key])
                    for key in after_dict.keys() - before_dict.keys()}
     removed_items = {key: (REMOVED, before_dict[key])
@@ -23,4 +19,4 @@ def build(before_dict, after_dict, sort_keys=True):
             intersec[key] = (UNCHANGED, before_dict[key])
         else:
             intersec[key] = (CHANGED, [before_dict[key], after_dict[key]])
-    return dict(sort({**added_items, **removed_items, **intersec}.items()))
+    return dict(sorted({**added_items, **removed_items, **intersec}.items()))
