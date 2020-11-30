@@ -11,8 +11,7 @@ def open_and_read(file_path):
         return result_file.read()
 
 
-@pytest.mark.parametrize('json')
-@pytest.mark.parametrize('yaml')
+@pytest.mark.parametrize('format', ['json', 'yaml'])
 def test(format):
     path_1 = f"./tests/fixtures/file1.{format}"
     path_2 = f"./tests/fixtures/file2.{format}"
