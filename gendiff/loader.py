@@ -1,8 +1,12 @@
+import re
+
 from gendiff.parser import parse
 
 
 def get_file_data(file_path):
     with open(file_path) as content:
-        if file_path.endswith('.json'):
-            return parse(content.read(), 'json')
-        return parse(content.read(), 'yaml')
+        extension = re.search('\.(\S+)$', file_path)
+        if not extension:
+            raise Exception('ExtensionError: Could not recognize'
+                            ' file extension')
+        return parse(content.read(), extension.group(1))
