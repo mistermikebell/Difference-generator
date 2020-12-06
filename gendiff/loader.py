@@ -5,7 +5,7 @@ from gendiff.parser import parse
 
 def get_file_data(file_path):
     with open(file_path) as content:
-        extension = re.search(r'\.(\S+)$', file_path)
+        extension = re.search(r'\.([^.]+)$', file_path)
         if not extension:
             raise Exception('ExtensionError: Could not recognize'
                             ' file extension')
